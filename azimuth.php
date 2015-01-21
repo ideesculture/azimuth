@@ -1,4 +1,6 @@
-// Source : http://cosinekitty.com/compass.html
+<?php
+
+	// Source : http://cosinekitty.com/compass.html
 
 	// à supprimer
 	function $ (id)
@@ -24,7 +26,7 @@
             return $angle;
         }
     }
-    
+
     // à refaire
     function ParseLocation(prefix)
     {
@@ -56,20 +58,20 @@
         return sqrt(($t1*$t1 + $t2*$t2) / ($t3*$t3 + $t4*$t4));
     }
 
-    // à faire
+    // ok en php
     function LocationToPoint(array $c) {
         // Convert (lat, lon, elv) to (x, y, z).
-        var lat = c.lat * Math.PI / 180.0;
-        var lon = c.lon * Math.PI / 180.0;
-        var radius = c.elv + EarthRadiusInMeters (lat);
-        var cosLon = Math.cos (lon);
-        var sinLon = Math.sin (lon);
-        var cosLat = Math.cos (lat);
-        var sinLat = Math.sin (lat);
-        var x = cosLon * cosLat * radius;
-        var y = sinLon * cosLat * radius;
-        var z = sinLat * radius;
-        return {'x':x, 'y':y, 'z':z, 'radius':radius};
+        $lat = $c["lat"] * pi() / 180.0;
+        $lon = $c["lon"] * pi() / 180.0;
+        $radius = $c["elv"] + EarthRadiusInMeters($lat);
+        $cosLon = cos($lon);
+        $sinLon = sin($lon);
+        $cosLat = cos($lat);
+        $sinLat = sin($lat);
+        $x = $cosLon * $cosLat * $radius;
+        $y = $sinLon * $cosLat * $radius;
+        $z = $sinLat * $radius;
+        return array('x'=>$x, 'y'=>$y, 'z'=>$z, 'radius'=>$radius);
     }
 
 	// ok en PHP
@@ -80,7 +82,7 @@
         return sqrt($dx*$dx + $dy*$dy + $dz*$dz);
     }
 
-    // en cours
+    // ok en php
     function RotateGlobe(array $b, array $a, $bradius, $aradius) {
         // Get modified coordinates of 'b' by rotating the globe so that 'a' is at lat=0, lon=0.
         $br = array('lat'=> $b["lat"], 'lon'=> ($b["lon"] - $a["lon"]), 'elv'=>$b["elv"]);
@@ -92,9 +94,7 @@
         $brp["z"] *= ($bradius / $brp["radius"]);
         $brp["radius"] = $bradius;   // restore actual geoid-based radius calculation
 
-		// Note GM : position de fin de réécriture javascript => php
-
-        // Rotate brp cartesian coordinates around the z-axis by a.lon degrees,
+		    // Rotate brp cartesian coordinates around the z-axis by a.lon degrees,
         // then around the y-axis by a.lat degrees.
         // Though we are decreasing by a.lat degrees, as seen above the y-axis,
         // this is a positive (counterclockwise) rotation (if B's longitude is east of A's).
@@ -102,15 +102,15 @@
         // So we will look the other way making the x-axis pointing right, the z-axis
         // pointing up, and the rotation treated as negative.
 
-        var alat = -a.lat * Math.PI / 180.0;
-        var acos = Math.cos (alat);
-        var asin = Math.sin (alat);
+        $alat = -$a["lat"] * pi() / 180.0;
+        $acos = cos($alat);
+        $asin = sin($alat);
 
-        var bx = (brp.x * acos) - (brp.z * asin);
-        var by = brp.y;
-        var bz = (brp.x * asin) + (brp.z * acos);
+        $bx = ($brp["x"] * $acos) - ($brp["z"] * $asin);
+        $by = $brp["y"];
+        $bz = ($brp["x"] * $asin) + ($brp["z"] * $acos);
 
-        return {'x':bx, 'y':by, 'z':bz};
+        return array('x'=>$bx, 'y'=>$by, 'z'=>$bz);
     }
 
     function Calculate()
