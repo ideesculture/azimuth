@@ -8,7 +8,7 @@
         return document.getElementById (id);
     }
 
-	// ok en PHP
+	// rewritten
     function ParseAngle($angle, $limit = 360) {
         if (is_nan($angle) || ($angle < -$limit) || ($angle > $limit)) {
             return null;
@@ -17,7 +17,7 @@
         }
     }
 
-	// ok en PHP
+	// rewritten
     function ParseElevation($angle)
     {
         if (is_nan($angle)) {
@@ -27,24 +27,24 @@
         }
     }
 
-    // à refaire
-    function ParseLocation(prefix)
+    // rewritten
+    function ParseLocation(array $prefix)
     {
-        var lat = ParseAngle (prefix + '_lat', 90.0);
-        var location = null;
-        if (lat != null) {
-            var lon = ParseAngle (prefix + '_lon', 180.0);
-            if (lon != null) {
-                var elv = ParseElevation (prefix + '_elv');
-                if (elv != null) {
-                    location = {'lat':lat, 'lon':lon, 'elv':elv};
+        $lat = ParseAngle($prefix['_lat'], 90.0);
+        $location = null;
+        if ($lat != null) {
+            $lon = ParseAngle ($prefix['_lon'], 180.0);
+            if ($lon != null) {
+                $elv = ParseElevation($prefix['_elv']);
+                if ($elv != null) {
+                    $location = array('lat'=>$lat, 'lon'=>$lon, 'elv'=>$elv);
                 }
             }
         }
-        return location;
+        return $location;
     }
 
-    // ok en PHP
+    // rewritten
     function EarthRadiusInMeters($latitudeRadians) {
         // http://en.wikipedia.org/wiki/Earth_radius
         $a = 6378137.0;  // equatorial radius in meters
@@ -58,7 +58,7 @@
         return sqrt(($t1*$t1 + $t2*$t2) / ($t3*$t3 + $t4*$t4));
     }
 
-    // ok en php
+    // rewritten
     function LocationToPoint(array $c) {
         // Convert (lat, lon, elv) to (x, y, z).
         $lat = $c["lat"] * pi() / 180.0;
@@ -74,7 +74,7 @@
         return array('x'=>$x, 'y'=>$y, 'z'=>$z, 'radius'=>$radius);
     }
 
-	// ok en PHP
+		// rewritten
     function Distance (array $ap, array $bp) {
         $dx = $ap["x"] - $bp["x"];
         $dy = $ap["y"] - $bp["y"];
@@ -82,7 +82,7 @@
         return sqrt($dx*$dx + $dy*$dy + $dz*$dz);
     }
 
-    // ok en php
+    // rewritten
     function RotateGlobe(array $b, array $a, $bradius, $aradius) {
         // Get modified coordinates of 'b' by rotating the globe so that 'a' is at lat=0, lon=0.
         $br = array('lat'=> $b["lat"], 'lon'=> ($b["lon"] - $a["lon"]), 'elv'=>$b["elv"]);
@@ -151,32 +151,10 @@
         }
     }
 
-    var save_b_lat = '';    // holds point B latitude  from non-geostationary mode
-    var save_b_elv = '';    // holds point B elevation from non-geostationary mode
+		// Code sample :
+		/*
 
-    function OnGeoCheck()
-    {
-        // The geostationary checkbox was clicked.
-        var geomode = $('cb_geo').checked;
-        if (geomode) {
-            // Save values so user doesn't lose them on accidental/curiosity click.
-            save_b_lat = $('b_lat').value;
-            save_b_elv = $('b_elv').value;
 
-            // Fill in the values for geostationary orbit.
-            $('b_lat').value = '0';         // assume satellite is directly above equator.
-            $('b_elv').value = '35786000';  // 35,786 km above equator.
 
-            // Disable editing of point B latitude and elevation while box is checked.
-            $('b_lat').disabled = true;
-            $('b_elv').disabled = true;
-        } else {
-            // Restore saved values to edit boxes, so user doesn't lose them.
-            $('b_lat').value = save_b_lat;
-            $('b_elv').value = save_b_elv;
 
-            // Enable editing of point B latitude and elevation while box is checked.
-            $('b_lat').disabled = false;
-            $('b_elv').disabled = false;
-        }
-    }
+		*/
