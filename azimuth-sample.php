@@ -21,5 +21,8 @@
     $tour_eiffel = array("lat"=> 48.85825, "lon"=>2.2945, "elv"=>357.5);
     $le_mans = array("lat"=> 48.006110000000010000, "lon"=>0.199556000000029600, "elv"=>134);
 
-    $result = Calculate($tour_eiffel, $le_mans);
+    // Le Mans is 181.149 km from Paris, Paris is at NW from Le Mans (58°), altitude is -1 so you should look
+    // just under the horizon from the Tour Eiffel to have a look at Le Mans, but guess what, it's a bit far...
+
+    $result = Calculate($le_mans, $tour_eiffel);
 		print_r($result);
