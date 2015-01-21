@@ -84,13 +84,15 @@
     function RotateGlobe(array $b, array $a, $bradius, $aradius) {
         // Get modified coordinates of 'b' by rotating the globe so that 'a' is at lat=0, lon=0.
         $br = array('lat'=> $b["lat"], 'lon'=> ($b["lon"] - $a["lon"]), 'elv'=>$b["elv"]);
-        $brp = LocationToPoint ($br);
+        $brp = LocationToPoint($br);
 
         // scale all the coordinates based on the original, correct geoid radius...
-        brp.x *= (bradius / brp.radius);
-        brp.y *= (bradius / brp.radius);
-        brp.z *= (bradius / brp.radius);
-        brp.radius = bradius;   // restore actual geoid-based radius calculation
+        $brp["x"] *= ($bradius / $brp["radius"]);
+        $brp["y"] *= ($bradius / $brp["radius"]);
+        $brp["z"] *= ($bradius / $brp["radius"]);
+        $brp["radius"] = $bradius;   // restore actual geoid-based radius calculation
+
+		// Note GM : position de fin de réécriture javascript => php
 
         // Rotate brp cartesian coordinates around the z-axis by a.lon degrees,
         // then around the y-axis by a.lat degrees.
